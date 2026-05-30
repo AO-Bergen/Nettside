@@ -47,6 +47,8 @@
     "dompurify": "^3.1.5",
     "dotenv": "^16.5.0",
     "embla-carousel-react": "^8.6.0",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.6",
     "file-saver": "^2.0.5",
     "firebase": "^11.9.1",
     "firebase-admin": "^12.3.0",
