@@ -1,0 +1,20 @@
+{
+    "name": "Arkitekturopprøret Bergen",
+    "short_name": "AO Bergen",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#fff",
+    "description": "En bevegelse for vakrere arkitektur i Bergen.",
+    "icons": [
+        {
+            "src": "https://firebasestorage.googleapis.com/v0/b/arkitekturopprret-bergen.firebasestorage.app/o/Permanente%20filer%2FAO%20BERGEN%20-%20LOGO.png?alt=media&token=6957cffc-5f8c-445a-b600-0d6758ea6188",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "https://firebasestorage.googleapis.com/v0/b/arkitekturopprret-bergen.firebasestorage.app/o/Permanente%20filer%2FAO%20BERGEN%20-%20LOGO.png?alt=media&token=6957cffc-5f8c-445a-b600-0d6758ea6188",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

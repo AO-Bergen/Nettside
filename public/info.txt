@@ -1,0 +1,5 @@
+This folder contains public assets.
+
+To set the website's favicon (the icon in the browser tab), replace the `favicon.ico` file in this directory with your own.
+
+Next.js will automatically use `public/favicon.ico` if it exists.

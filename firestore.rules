@@ -1,0 +1,136 @@
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAdmin() {
+      // Check if the user document exists and has the role 'Administrator'
+      return exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Administrator';
+    }
+
+    function hasPermission(page, accessType) {
+      // accessType must be 'read' or 'write'
+      let userPermissions = get(/databases/$(database)/documents/users/$(request.auth.uid)).data.permissions;
+      return userPermissions[page][accessType] == true;
+    }
+    
+    function isSignedIn() {
+        return request.auth != null;
+    }
+
+    // Rules for collections
+    match /users/{userId} {
+      // Any authenticated user can read their own document.
+      allow get: if isSignedIn() && request.auth.uid == userId;
+      // An admin or someone with 'members' read permission can list users.
+      allow list: if isSignedIn() && (isAdmin() || hasPermission('members', 'read'));
+      // A user can update their own 'name'.
+      allow update: if isSignedIn() && request.auth.uid == userId;
+      // An admin or someone with 'members' write permission can update other fields.
+      allow update: if isSignedIn() && (isAdmin() || hasPermission('members', 'write'));
+      // Only admins should be able to create or delete users through this interface.
+      allow create, delete: if isSignedIn() && isAdmin();
+    }
+
+    match /roles/{roleId} {
+      // Reading roles is open to all authenticated users to populate dropdowns etc.
+      allow read: if isSignedIn();
+      // Only admins or those with settings write permission can manage roles.
+      allow write: if isSignedIn() && (isAdmin() || hasPermission('settings', 'write'));
+    }
+    
+    match /settings/siteConfig {
+        allow read: if true;
+        allow write: if isSignedIn() && (isAdmin() || hasPermission('settings', 'write'));
+    }
+    
+    match /messages/{messageId} {
+        // Only users with inbox read permission can see messages
+        allow read: if isSignedIn() && (isAdmin() || hasPermission('inbox', 'read'));
+        // Any user can create a message (contact form)
+        allow create: if true;
+        // Only users with inbox write permission can update/delete messages
+        allow write: if isSignedIn() && (isAdmin() || hasPermission('inbox', 'write'));
+    }
+
+    match /meetings/{meetingId} {
+        // Users with 'meetings' read/write permissions or admins can access.
+        allow read: if isSignedIn() && (isAdmin() || hasPermission('meetings', 'read'));
+        allow write: if isSignedIn() && (isAdmin() || hasPermission('meetings', 'write'));
+    }
+
+    match /projects/{projectId} {
+        allow read: if true; // Publicly readable
+        allow write: if isSignedIn() && (isAdmin() || hasPermission('buildings', 'write'));
+    }
+    
+    match /architecturalProjectVotes/{projectId} {
+        allow read: if true; // Publicly readable
+        // A user can create the document with their own first vote
+        allow create: if isSignedIn() &&
+                       request.resource.data.votes.keys().hasOnly([request.auth.uid]);
+        // A user can update the document by adding or changing their own vote
+        allow update: if isSignedIn() &&
+                       request.resource.data.votes.diff(resource.data.votes).affectedKeys().hasOnly([request.auth.uid]);
+    }
+    
+    match /members/{memberId} {
+        allow read: if true;
+        allow write: if isSignedIn() && (isAdmin() || hasPermission('members', 'write'));
+    }
+
+    match /news/{newsId} {
+        allow read: if resource.data.status == 'Publisert' || (isSignedIn() && (isAdmin() || hasPermission('news', 'read')));
+        allow list: if isSignedIn() && (isAdmin() || hasPermission('news', 'read'));
+        allow write: if isSignedIn() && (isAdmin() || hasPermission('news', 'write'));
+    }
+    
+    match /events/{eventId} {
+        allow read: if true;
+        allow write: if isSignedIn() && (isAdmin() || hasPermission('events', 'write'));
+    }
+    
+    match /recommendations/{recommendationId} {
+        allow read: if true;
+        allow write: if isSignedIn() && (isAdmin() || hasPermission('recommendations', 'write'));
+    }
+    
+    match /instagramLinks/{linkId} {
+        allow read: if true;
+        allow write: if isSignedIn() && (isAdmin() || hasPermission('instagramLinks', 'write'));
+    }
+
+    match /socialPosts/{postId} {
+        allow read, list: if isSignedIn() && (isAdmin() || hasPermission('social', 'read'));
+        allow write: if isSignedIn() && (isAdmin() || hasPermission('social', 'write'));
+    }
+    
+    match /tasks/{taskId} {
+      allow list: if isSignedIn() && (isAdmin() || hasPermission('tasks', 'read'));
+      allow get: if isSignedIn() && (isAdmin() || hasPermission('tasks', 'read') || request.auth.uid == resource.data.assignedTo.uid);
+      allow create: if isSignedIn() && (isAdmin() || hasPermission('tasks', 'write'));
+      // Allow updating if admin, has write permission, or is the assigned user (only for status).
+      allow update: if isSignedIn() && ((isAdmin() || hasPermission('tasks', 'write')) || (request.auth.uid == resource.data.assignedTo.uid));
+      allow delete: if isSignedIn() && (isAdmin() || hasPermission('tasks', 'write'));
+    }
+    
+     match /pushSubscriptions/{subscriptionId} {
+        allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+        allow delete: if isSignedIn() && get(/databases/$(database)/documents/pushSubscriptions/$(subscriptionId)).data.userId == request.auth.uid;
+     }
+
+    match /budgets/{budgetId} {
+        allow read: if isSignedIn() && (isAdmin() || hasPermission('okonomi', 'read'));
+        allow write: if isSignedIn() && (isAdmin() || hasPermission('okonomi', 'write'));
+    }
+
+    match /expenses/{expenseId} {
+        allow create: if isSignedIn();
+        allow list, get: if isSignedIn() && (isAdmin() || hasPermission('okonomi', 'read'));
+        allow update, delete: if isSignedIn() && (isAdmin() || hasPermission('okonomi', 'write'));
+    }
+  }
+}

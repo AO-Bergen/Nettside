@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: var(--font-pt-sans), sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 36 40% 96%;
+    --foreground: 200 15% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 200 15% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 200 15% 12%;
+    --primary: 132 23% 25%;
+    --primary-foreground: 36 40% 96%;
+    --secondary: 40 20% 90%;
+    --secondary-foreground: 200 15% 12%;
+    --muted: 40 18% 92%;
+    --muted-foreground: 200 10% 41%;
+    --accent: 39 48% 50%;
+    --accent-foreground: 36 40% 96%;
+    --destructive: 0 60% 40%;
+    --destructive-foreground: 36 40% 96%;
+    --border: 40 15% 85%;
+    --input: 40 15% 85%;
+    --ring: 132 23% 25%;
+    --chart-1: 132 23% 25%;
+    --chart-2: 39 48% 50%;
+    --chart-3: 200 15% 12%;
+    --chart-4: 40 20% 90%;
+    --chart-5: 0 60% 40%;
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 200 15% 12%;
+    --sidebar-primary: 132 23% 25%;
+    --sidebar-primary-foreground: 36 40% 96%;
+    --sidebar-accent: 40 20% 90%;
+    --sidebar-accent-foreground: 200 15% 12%;
+    --sidebar-border: 40 15% 85%;
+    --sidebar-ring: 132 23% 25%;
+  }
+  .dark {
+    --background: 132 20% 8%;
+    --foreground: 36 30% 93%;
+    --card: 132 15% 12%;
+    --card-foreground: 36 30% 93%;
+    --popover: 132 15% 11%;
+    --popover-foreground: 36 30% 93%;
+    --primary: 120 22% 70%;
+    --primary-foreground: 132 20% 8%;
+    --secondary: 132 12% 16%;
+    --secondary-foreground: 36 30% 93%;
+    --muted: 132 12% 16%;
+    --muted-foreground: 132 10% 65%;
+    --accent: 39 48% 65%;
+    --accent-foreground: 132 20% 8%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 36 30% 93%;
+    --border: 132 12% 20%;
+    --input: 132 12% 20%;
+    --ring: 120 22% 70%;
+    --chart-1: 120 22% 70%;
+    --chart-2: 39 48% 65%;
+    --chart-3: 36 30% 93%;
+    --chart-4: 132 12% 16%;
+    --chart-5: 0 62.8% 30.6%;
+    --sidebar-background: 132 20% 8%;
+    --sidebar-foreground: 36 30% 93%;
+    --sidebar-primary: 120 22% 70%;
+    --sidebar-primary-foreground: 132 20% 8%;
+    --sidebar-accent: 132 12% 16%;
+    --sidebar-accent-foreground: 36 30% 93%;
+    --sidebar-border: 132 12% 20%;
+    --sidebar-ring: 120 22% 70%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-playfair-display), Georgia, serif;
+    @apply text-foreground tracking-tight;
+  }
+  .dark input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+  .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    @apply bg-card text-card-foreground;
+  }
+  .leaflet-popup-close-button {
+    color: hsl(var(--card-foreground)) !important;
+  }
+  .leaflet-popup-close-button:hover {
+    color: hsl(var(--foreground)) !important;
+  }
+  .custom-leaflet-icon {
+    background: transparent;
+    border: none;
+  }
+}
+
+@layer utilities {
+  .fullscreen-hidden:is(.fullscreen, .fullscreen *) {
+      display: none;
+  }
+  
+  /* Classic Editorial Elements */
+  .editorial-heading-accent {
+    @apply relative pb-4 text-foreground font-semibold font-headline;
+  }
+  
+  .editorial-heading-accent::after {
+    content: '';
+    @apply absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-0.5 bg-primary/40;
+  }
+  
+  .editorial-heading-accent-left {
+    @apply relative pb-4 text-foreground font-semibold font-headline;
+  }
+  
+  .editorial-heading-accent-left::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-16 h-0.5 bg-primary/40;
+  }
+
+  .editorial-deck {
+    @apply italic font-body text-muted-foreground/90 leading-relaxed;
+  }
+
+  .editorial-grid {
+    @apply grid gap-8 md:gap-12;
+  }
+
+  .classic-double-border {
+    border: 3px double hsl(var(--border));
+  }
+
+  /* Thin elegant accent line */
+  .editorial-divider {
+    @apply my-10 h-[1px] bg-gradient-to-r from-transparent via-border to-transparent;
+  }
+}

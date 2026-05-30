@@ -1,0 +1,345 @@
+
+
+{
+  "entities": {
+    "ArchitecturalProject": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ArchitecturalProject",
+      "type": "object",
+      "description": "Represents an architectural project in Bergen.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Architectural Project entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the architectural project."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the architectural project."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the image representing the project.",
+          "format": "uri"
+        },
+        "location": {
+          "type": "string",
+          "description": "Location of the architectural project."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "imageUrl",
+        "location"
+      ]
+    },
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user who can vote on architectural projects.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the User entity."
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "Administrator",
+            "Medlem"
+          ]
+        },
+        "rolePresetId": {
+            "type": "string",
+            "description": "The ID of the role preset applied to this user."
+        },
+        "status": {
+            "type": "string",
+            "enum": ["active", "deactivated"]
+        },
+        "emailOptIn": {
+            "type": "boolean",
+            "description": "Indicates if the user has opted in to receive emails."
+        },
+        "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the user was created."
+        },
+        "notificationPreferences": {
+            "type": "object",
+            "description": "Defines user's topic preferences for push notifications.",
+            "properties": {
+                "news": { "type": "boolean", "description": "Receive notifications for new articles." },
+                "events": { "type": "boolean", "description": "Receive notifications for new events." },
+                "inbox": { "type": "boolean", "description": "Receive notifications for new inbox messages." }
+            }
+        },
+        "permissions": {
+          "type": "object",
+          "description": "Defines permissions for the user.",
+          "properties": {
+            "inbox": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "meetings": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "tasks": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "buildings": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "news": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "events": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "recommendations": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "members": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "social": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "instagramLinks": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "files": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "drive": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "textEditor": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "settings": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "okonomi": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } }
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email",
+        "role"
+      ]
+    },
+    "Role": {
+      "title": "Role",
+      "type": "object",
+      "description": "Represents a role preset with a defined set of permissions.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the role, e.g., 'Kommunikasjonskomité'."
+        },
+        "permissions": {
+          "type": "object",
+          "description": "Defines permissions for the role.",
+          "properties": {
+            "inbox": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "meetings": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "tasks": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "buildings": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "news": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "events": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "recommendations": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "members": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "social": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "instagramLinks": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "files": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "drive": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "textEditor": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "settings": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } },
+            "okonomi": { "type": "object", "properties": { "read": { "type": "boolean" }, "write": { "type": "boolean" } } }
+          }
+        }
+      },
+      "required": ["name", "permissions"]
+    },
+    "ArchitecturalProjectVotes": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ArchitecturalProjectVotes",
+      "type": "object",
+      "description": "A document storing all votes for a single architectural project. The document ID is the ID of the ArchitecturalProject. Each field in the document is a user's ID, and the value is their vote.",
+      "patternProperties": {
+        "^[a-zA-Z0-9_]+$": {
+          "type": "object",
+          "properties": {
+            "voteType": {
+              "type": "string",
+              "enum": [
+                "ExceptionallyUgly",
+                "Ugly",
+                "OK Minus",
+                "OK",
+                "OK Plus",
+                "Beautiful",
+                "ExceptionallyBeautiful"
+              ]
+            },
+            "voteDate": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "voteType",
+            "voteDate"
+          ]
+        }
+      }
+    },
+    "Recommendation": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Recommendation",
+      "type": "object",
+      "description": "Represents a recommended resource like a book, documentary, or podcast.",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the recommended item."
+        },
+        "creator": {
+          "type": "string",
+          "description": "The author, director, or creator of the item."
+        },
+        "description": {
+          "type": "string",
+          "description": "A short description of the item."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "A URL for an image representing the item.",
+          "format": "uri"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["book", "documentary", "podcast"],
+          "description": "The type of recommendation."
+        },
+        "aiHint": {
+          "type": "string",
+          "description": "A hint for AI image generation."
+        },
+        "order": {
+            "type": "number",
+            "description": "The display order of the recommendation."
+        },
+        "linkUrl": {
+          "type": "string",
+          "description": "An optional URL to the resource (e.g. YouTube, online store).",
+          "format": "uri"
+        }
+      },
+      "required": ["title", "creator", "description", "type"]
+    },
+    "PushSubscription": {
+      "title": "PushSubscription",
+      "type": "object",
+      "description": "Stores a user's web push notification subscription.",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The UID of the user this subscription belongs to."
+        },
+        "subscription": {
+          "type": "object",
+          "description": "The PushSubscription object from the browser's Push API."
+        },
+        "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the subscription was created."
+        }
+      },
+      "required": ["userId", "subscription", "createdAt"]
+    },
+    "Budget": {
+        "title": "Budget",
+        "type": "object",
+        "description": "Represents an annual budget.",
+        "properties": {
+            "name": { "type": "string", "description": "Name of the budget, e.g., 'Annual Budget'." },
+            "year": { "type": "number", "description": "The year the budget applies to." },
+            "totalAmount": { "type": "number", "description": "The total amount allocated for the budget." },
+            "categories": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "name": { "type": "string" },
+                        "allocatedAmount": { "type": "number" }
+                    },
+                    "required": ["name", "allocatedAmount"]
+                }
+            }
+        },
+        "required": ["name", "year", "totalAmount"]
+    },
+    "Expense": {
+        "title": "Expense",
+        "type": "object",
+        "description": "Represents a single expense claim submitted by a user.",
+        "properties": {
+            "description": { "type": "string", "description": "Description of the expense." },
+            "amount": { "type": "number", "description": "The expense amount." },
+            "date": { "type": "string", "format": "date-time", "description": "Date the expense was incurred." },
+            "receiptUrl": { "type": "string", "format": "uri", "description": "URL to the scanned receipt image." },
+            "submittedById": { "type": "string", "description": "UID of the user who submitted the expense." },
+            "submittedByName": { "type": "string", "description": "Name of the user who submitted the expense." },
+            "status": {
+                "type": "string",
+                "enum": ["pending", "approved", "reimbursed", "rejected"],
+                "description": "The current status of the expense claim."
+            }
+        },
+        "required": ["description", "amount", "date", "submittedById", "submittedByName", "status"]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "/architecturalProjects/{architecturalProjectId}": {
+      "schema": {
+        "$ref": "#/entities/ArchitecturalProject"
+      },
+      "description": "Stores architectural project information. Each document represents an architectural project."
+    },
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/User"
+      },
+      "description": "Stores user information. Each document represents a user."
+    },
+    "/roles/{roleId}": {
+        "schema": {
+            "$ref": "#/entities/Role"
+        },
+        "description": "Stores role presets for user permissions."
+    },
+    "/architecturalProjectVotes/{architecturalProjectId}": {
+      "schema": {
+        "$ref": "#/entities/ArchitecturalProjectVotes"
+      },
+      "description": "Stores all votes for a given architectural project."
+    },
+    "/recommendations/{recommendationId}": {
+        "schema": {
+            "$ref": "#/entities/Recommendation"
+        },
+        "description": "Stores all recommendations for books, documentaries, etc."
+    },
+    "/pushSubscriptions/{subscriptionId}": {
+      "schema": {
+        "$ref": "#/entities/PushSubscription"
+      },
+      "description": "Stores push notification subscriptions for users."
+    },
+    "/budgets/{budgetId}": {
+      "schema": { "$ref": "#/entities/Budget" },
+      "description": "Stores annual budgets."
+    },
+    "/expenses/{expenseId}": {
+        "schema": { "$ref": "#/entities/Expense" },
+        "description": "Stores individual expense claims."
+    }
+  }
+}
